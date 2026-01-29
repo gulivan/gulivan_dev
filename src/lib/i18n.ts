@@ -3,12 +3,11 @@ export type Locale = 'en' | 'ru';
 const translations = {
   en: {
     nav: {
-      blog: 'Blog',
       about: 'About',
     },
     home: {
       greeting: "Hey, I'm Gulivan",
-      tagline: 'Welcome to my blog. I write about software engineering, tech, and things I find interesting.',
+      tagline: 'Reflections on the journey.',
       postsHeading: 'Posts',
       noPosts: 'No posts yet. Check back soon!',
     },
@@ -26,7 +25,6 @@ const translations = {
   },
   ru: {
     nav: {
-      blog: 'Блог',
       about: 'Обо мне',
     },
     home: {
