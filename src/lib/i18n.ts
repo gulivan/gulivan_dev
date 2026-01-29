@@ -30,7 +30,7 @@ const translations = {
     home: {
       greeting: 'Gulivan',
       tagline: 'Опыт и рефлексия о пройденном.',
-      postsHeading: 'Записи',
+      postsHeading: 'Посты',
       noPosts: 'Записей пока нет. Загляните позже!',
     },
     blog: {
