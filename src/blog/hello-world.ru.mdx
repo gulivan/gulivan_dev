@@ -1,0 +1,55 @@
+---
+title: "Привет, мир: Мой первый пост"
+pubDate: 2025-01-29
+description: "Добро пожаловать в мой блог! В этом посте демонстрируются все поддерживаемые типы встраиваемого контента: изображения, GIF, видео с YouTube и другое."
+tags: ["intro", "demo"]
+image:
+  src: "https://placehold.co/800x400/1a1a2e/e0e0e0?text=Hello+World"
+  alt: "Обложка Hello World"
+---
+
+import { YouTube } from 'astro-embed';
+
+Добро пожаловать в мой блог! Это мой первый пост, и я использую его для демонстрации
+различных типов встраиваемого контента, которые поддерживает этот сайт.
+
+## Изображения
+
+Вы можете вставлять изображения с помощью стандартного синтаксиса markdown:
+
+![Изображение-заглушка](https://placehold.co/800x400/1a1a2e/e0e0e0?text=Blog+Image)
+
+## GIF-анимации
+
+GIF работают со стандартным тегом `<img>` для полного контроля:
+
+<img src="https://media.giphy.com/media/xT9IgzoKnwFNmISR8I/giphy.gif" alt="Coding GIF" width="480" />
+
+## Видео с YouTube
+
+Встраивание видео YouTube с помощью компонента `astro-embed`:
+
+<YouTube id="dsTXcSeAZq8" />
+
+## Видеофайлы
+
+Также можно встраивать видеофайлы напрямую:
+
+<video controls width="100%" class="rounded-lg">
+  <source src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.webm" type="video/webm" />
+  Ваш браузер не поддерживает элемент video.
+</video>
+
+## Блоки кода
+
+И конечно, подсветка синтаксиса:
+
+```typescript
+function greet(name: string): string {
+  return `Привет, ${name}! Добро пожаловать в блог.`;
+}
+
+console.log(greet('Мир'));
+```
+
+На этом демо завершено. Следите за новыми постами!

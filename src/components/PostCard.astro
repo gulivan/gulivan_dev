@@ -1,4 +1,8 @@
 ---
+import type { Locale } from '../lib/i18n';
+import { formatDate } from '../lib/i18n';
+import { getBaseSlug, localizedPath } from '../lib/locale';
+
 interface Props {
   title: string;
   pubDate: Date;
@@ -6,17 +10,16 @@ interface Props {
   tags?: string[];
   image?: { src: string; alt: string };
   slug: string;
+  locale?: Locale;
 }
 
-const { title, pubDate, description, tags, image, slug } = Astro.props;
-const formattedDate = new Date(pubDate).toLocaleDateString('en-US', {
-  year: 'numeric',
-  month: 'long',
-  day: 'numeric',
-});
+const { title, pubDate, description, tags, image, slug, locale = 'en' } = Astro.props;
+const formattedDate = formatDate(pubDate, locale);
+const baseSlug = getBaseSlug(slug);
+const href = localizedPath(`/blog/${baseSlug}/`, locale);
 ---
 
-<a href={`/blog/${slug}/`} class="block group">
+<a href={href} class="block group">
   <article class="border-t border-b py-4">
     <div class="flex gap-4">
       {image && (

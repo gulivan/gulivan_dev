@@ -1,12 +1,12 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
-import PostCard from '../components/PostCard.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PostCard from '../../components/PostCard.astro';
 import { getCollection } from 'astro:content';
-import type { Locale } from '../lib/i18n';
-import { getTranslations } from '../lib/i18n';
-import { getLocaleFromPostId } from '../lib/locale';
+import type { Locale } from '../../lib/i18n';
+import { getTranslations } from '../../lib/i18n';
+import { getLocaleFromPostId } from '../../lib/locale';
 
-const locale = (Astro.currentLocale ?? 'en') as Locale;
+const locale = (Astro.currentLocale ?? 'ru') as Locale;
 const t = getTranslations(locale);
 
 const posts = (await getCollection('blog'))

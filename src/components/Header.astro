@@ -1,19 +1,25 @@
 ---
 import ThemeToggle from './ThemeToggle.astro';
+import type { Locale } from '../lib/i18n';
+import { getTranslations } from '../lib/i18n';
+import { localizedPath } from '../lib/locale';
+
+const locale = (Astro.currentLocale ?? 'en') as Locale;
+const t = getTranslations(locale);
 ---
 
 <header class="border-b">
   <nav class="max-w-3xl mx-auto px-4 py-4 flex items-center justify-between">
-    <a href="/" class="flex items-center gap-2 hover:opacity-80 transition-opacity">
+    <a href={localizedPath('/', locale)} class="flex items-center gap-2 hover:opacity-80 transition-opacity">
       <img src="/images/logo.jpeg" alt="gulivan.dev logo" class="w-8 h-8 rounded" />
       <span class="text-xl font-bold tracking-tight">gulivan.dev</span>
     </a>
     <div class="flex items-center gap-4 text-sm">
-      <a href="/blog/" class="text-muted-foreground hover:text-foreground transition-colors">
-        Blog
+      <a href={localizedPath('/blog/', locale)} class="text-muted-foreground hover:text-foreground transition-colors">
+        {t.nav.blog}
       </a>
-      <a href="/about/" class="text-muted-foreground hover:text-foreground transition-colors">
-        About
+      <a href={localizedPath('/about/', locale)} class="text-muted-foreground hover:text-foreground transition-colors">
+        {t.nav.about}
       </a>
       <ThemeToggle />
     </div>

@@ -2,6 +2,8 @@
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import '../styles/global.css';
+import type { Locale } from '../lib/i18n';
+import { getAlternateUrl } from '../lib/locale';
 
 interface Props {
   title: string;
@@ -13,19 +15,26 @@ interface Props {
   author?: string;
 }
 
+const locale = (Astro.currentLocale ?? 'en') as Locale;
+
 const {
   title,
-  description = 'A personal blog',
+  description = locale === 'ru' ? 'Персональный блог' : 'A personal blog',
   ogImage = `${Astro.site}og-default.png`,
   ogType = 'website',
   canonicalUrl = Astro.url.href,
   publishedTime,
   author,
 } = Astro.props;
+
+const ogLocale = locale === 'ru' ? 'ru_RU' : 'en_US';
+const altLocale = locale === 'ru' ? 'en_US' : 'ru_RU';
+const altUrl = `${Astro.site?.toString().replace(/\/$/, '')}${getAlternateUrl(Astro.url.pathname, locale)}`;
+const currentUrl = `${Astro.site?.toString().replace(/\/$/, '')}${Astro.url.pathname}`;
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang={locale}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -42,6 +51,7 @@ const {
     <meta property="og:url" content={canonicalUrl} />
     <meta property="og:type" content={ogType} />
     <meta property="og:site_name" content="gulivan.dev" />
+    <meta property="og:locale" content={ogLocale} />
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
@@ -61,6 +71,12 @@ const {
 
     <!-- Canonical -->
     <link rel="canonical" href={canonicalUrl} />
+
+    <!-- Hreflang -->
+    <link rel="alternate" hreflang={locale} href={currentUrl} />
+    <link rel="alternate" hreflang={locale === 'ru' ? 'en' : 'ru'} href={altUrl} />
+    <link rel="alternate" hreflang="x-default" href={locale === 'ru' ? altUrl : currentUrl} />
+
     <script is:inline>
       (function() {
         var theme = localStorage.getItem('theme');

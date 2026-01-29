@@ -2,6 +2,7 @@ import type { APIContext } from 'astro';
 import { getCollection } from 'astro:content';
 import satori from 'satori';
 import { Resvg } from '@resvg/resvg-js';
+import { getLocaleFromPostId, getBaseSlug } from '../../lib/locale';
 
 export async function getStaticPaths() {
   const posts = (await getCollection('blog')).filter((p) => !p.data.draft);
@@ -13,6 +14,9 @@ export async function GET({ params }: APIContext) {
   const post = posts.find((p) => p.id === params.slug);
   if (!post) return new Response('Not found', { status: 404 });
 
+  const locale = getLocaleFromPostId(post.id);
+  const isRu = locale === 'ru';
+
   const fontData = await fetch(
     'https://cdn.jsdelivr.net/fontsource/fonts/inter@latest/latin-700-normal.woff',
   ).then((r) => r.arrayBuffer());
@@ -20,6 +24,27 @@ export async function GET({ params }: APIContext) {
   const fontDataRegular = await fetch(
     'https://cdn.jsdelivr.net/fontsource/fonts/inter@latest/latin-400-normal.woff',
   ).then((r) => r.arrayBuffer());
+
+  const fonts: { name: string; data: ArrayBuffer; weight: 700 | 400; style: 'normal' }[] = [
+    { name: 'Inter', data: fontData, weight: 700, style: 'normal' as const },
+    { name: 'Inter', data: fontDataRegular, weight: 400, style: 'normal' as const },
+  ];
+
+  if (isRu) {
+    const cyrillicBold = await fetch(
+      'https://cdn.jsdelivr.net/fontsource/fonts/inter@latest/cyrillic-700-normal.woff',
+    ).then((r) => r.arrayBuffer());
+    const cyrillicRegular = await fetch(
+      'https://cdn.jsdelivr.net/fontsource/fonts/inter@latest/cyrillic-400-normal.woff',
+    ).then((r) => r.arrayBuffer());
+    fonts.push(
+      { name: 'Inter', data: cyrillicBold, weight: 700, style: 'normal' as const },
+      { name: 'Inter', data: cyrillicRegular, weight: 400, style: 'normal' as const },
+    );
+  }
+
+  const authorLabel = isRu ? 'Иван' : 'Ivan';
+  const dateLocale = isRu ? 'ru-RU' : 'en-US';
 
   const svg = await satori(
     {
@@ -103,7 +128,7 @@ export async function GET({ params }: APIContext) {
                             fontWeight: 400,
                             color: '#64748b',
                           },
-                          children: `Ivan · ${post.data.pubDate.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}`,
+                          children: `${authorLabel} · ${post.data.pubDate.toLocaleDateString(dateLocale, { year: 'numeric', month: 'short', day: 'numeric' })}`,
                         },
                       },
                     ],
@@ -118,10 +143,7 @@ export async function GET({ params }: APIContext) {
     {
       width: 1200,
       height: 630,
-      fonts: [
-        { name: 'Inter', data: fontData, weight: 700, style: 'normal' as const },
-        { name: 'Inter', data: fontDataRegular, weight: 400, style: 'normal' as const },
-      ],
+      fonts,
     },
   );
 

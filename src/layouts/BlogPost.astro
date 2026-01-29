@@ -1,5 +1,8 @@
 ---
 import BaseLayout from './BaseLayout.astro';
+import type { Locale } from '../lib/i18n';
+import { getTranslations, formatDate } from '../lib/i18n';
+import { getBaseSlug, localizedPath } from '../lib/locale';
 
 interface Heading {
   depth: number;
@@ -21,22 +24,24 @@ interface Props {
   headings?: Heading[];
   prevPost?: PostLink | null;
   nextPost?: PostLink | null;
+  locale?: Locale;
+  postId?: string;
 }
 
-const { title, pubDate, description, tags, readingTime, headings, prevPost, nextPost } = Astro.props;
-const formattedDate = new Date(pubDate).toLocaleDateString('en-US', {
-  year: 'numeric',
-  month: 'long',
-  day: 'numeric',
-});
+const { title, pubDate, description, tags, readingTime, headings, prevPost, nextPost, locale: localeProp, postId } = Astro.props;
+const locale = localeProp ?? (Astro.currentLocale as Locale) ?? 'en';
+const t = getTranslations(locale);
+const formattedDate = formatDate(pubDate, locale);
 
 const tocHeadings = (headings ?? []).filter((h) => h.depth <= 3);
+
+const ogSlug = postId ? getBaseSlug(postId) : Astro.params.slug;
 ---
 
 <BaseLayout
   title={title}
   description={description}
-  ogImage={`${Astro.site}og/${Astro.params.slug}.png`}
+  ogImage={`${Astro.site}og/${ogSlug}.png`}
   ogType="article"
   canonicalUrl={Astro.url.href}
   publishedTime={pubDate.toISOString()}
@@ -47,7 +52,7 @@ const tocHeadings = (headings ?? []).filter((h) => h.depth <= 3);
       <h1 class="text-4xl font-bold tracking-tight mb-2">{title}</h1>
       <div class="flex items-center gap-3 text-muted-foreground text-sm">
         <time datetime={pubDate.toISOString()}>{formattedDate}</time>
-        {readingTime && <span>&middot; {readingTime} min read</span>}
+        {readingTime && <span>&middot; {readingTime} {t.blog.minRead}</span>}
         {tags && tags.length > 0 && (
           <div class="flex gap-1.5 flex-wrap">
             {tags.map((tag) => (
@@ -62,7 +67,7 @@ const tocHeadings = (headings ?? []).filter((h) => h.depth <= 3);
 
     {tocHeadings.length > 2 && (
       <nav class="mb-8 p-4 border rounded-md">
-        <p class="text-sm font-semibold mb-2">Table of Contents</p>
+        <p class="text-sm font-semibold mb-2">{t.post.tableOfContents}</p>
         <ul class="text-sm space-y-1">
           {tocHeadings.map((h) => (
             <li style={`padding-left: ${(h.depth - 2) * 1}rem`}>
@@ -82,14 +87,14 @@ const tocHeadings = (headings ?? []).filter((h) => h.depth <= 3);
     {(prevPost || nextPost) && (
       <nav class="mt-12 pt-6 border-t flex justify-between gap-4">
         {prevPost ? (
-          <a href={`/blog/${prevPost.slug}/`} class="group text-sm">
-            <span class="text-muted-foreground">&larr; Previous</span>
+          <a href={localizedPath(`/blog/${prevPost.slug}/`, locale)} class="group text-sm">
+            <span class="text-muted-foreground">&larr; {t.post.previous}</span>
             <span class="block font-medium group-hover:underline">{prevPost.title}</span>
           </a>
         ) : <div />}
         {nextPost ? (
-          <a href={`/blog/${nextPost.slug}/`} class="group text-sm text-right">
-            <span class="text-muted-foreground">Next &rarr;</span>
+          <a href={localizedPath(`/blog/${nextPost.slug}/`, locale)} class="group text-sm text-right">
+            <span class="text-muted-foreground">{t.post.next} &rarr;</span>
             <span class="block font-medium group-hover:underline">{nextPost.title}</span>
           </a>
         ) : <div />}

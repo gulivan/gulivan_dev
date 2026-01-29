@@ -1,9 +1,11 @@
 ---
+import LanguageToggle from './LanguageToggle.astro';
+
 const year = new Date().getFullYear();
 ---
 
 <footer class="border-t">
   <div class="max-w-3xl mx-auto px-4 py-6 text-center text-sm text-muted-foreground">
-    &copy; {year} gulivan.dev · <a href="mailto:hello@gulivan.dev" class="hover:text-foreground transition-colors">hello@gulivan.dev</a>
+    &copy; {year} gulivan.dev · <a href="mailto:hello@gulivan.dev" class="hover:text-foreground transition-colors">hello@gulivan.dev</a> · <LanguageToggle />
   </div>
 </footer>

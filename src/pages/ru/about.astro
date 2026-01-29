@@ -1,0 +1,38 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Обо мне — gulivan.dev" description="Обо мне и этом блоге." ogType="website">
+  <section class="prose prose-neutral dark:prose-invert max-w-none">
+    <h1>Обо мне</h1>
+    <div class="not-prose flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-4 mb-8">
+      <p class="text-2xl font-semibold text-neutral-900 dark:text-neutral-100 m-0 shrink-0">
+        Привет, я Ваня!
+      </p>
+      <svg class="hidden sm:block w-20 h-14 text-orange-400 dark:text-orange-500 shrink-0 sm:rotate-0" viewBox="0 0 100 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- frame 1 -->
+        <g stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none">
+          <path d="M6 32 C12 46, 28 50, 48 38 C62 28, 72 19, 82 14">
+            <animate attributeName="d" values="M6 32 C12 46, 28 50, 48 38 C62 28, 72 19, 82 14;M6 33 C13 47, 29 50, 47 37 C61 27, 73 20, 83 15;M6 31 C11 45, 27 50, 49 39 C63 29, 71 18, 81 13;M6 32 C12 46, 28 50, 48 38 C62 28, 72 19, 82 14" dur="0.6s" repeatCount="indefinite" calcMode="discrete" />
+          </path>
+          <path d="M76 8 L83 14 L74 19" transform="rotate(-30 83 14)">
+            <animate attributeName="d" values="M76 8 L83 14 L74 19;M76 9 L84 15 L74 20;M76 7 L82 13 L74 18;M76 8 L83 14 L74 19" dur="0.6s" repeatCount="indefinite" calcMode="discrete" />
+          </path>
+        </g>
+      </svg>
+      <img
+        src="/images/ivan.jpeg"
+        alt="Иван с кофе у моря"
+        class="w-40 h-40 rounded-2xl object-cover object-top shrink-0"
+      />
+    </div>
+    <p>
+      10 лет в IT: дата-инженерия, архитектура, аналитика, DataOps, системный анализ.
+      Сейчас экспериментирую и создаю с помощью ИИ.
+      Верю, что технологии должны служить людям. Люблю кошек и собак &lt;3
+    </p>
+    <p>
+      Связаться со мной: <a href="mailto:hello@gulivan.dev">hello@gulivan.dev</a>
+    </p>
+  </section>
+</BaseLayout>

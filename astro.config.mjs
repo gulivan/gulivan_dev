@@ -8,6 +8,11 @@ import tailwindcss from '@tailwindcss/vite';
 export default defineConfig({
   site: 'https://gulivan.dev',
   output: 'static',
+  i18n: {
+    defaultLocale: 'en',
+    locales: ['en', 'ru'],
+    routing: { prefixDefaultLocale: false },
+  },
   integrations: [
     mdx(),
     react(),
