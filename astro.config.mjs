@@ -6,7 +6,7 @@ import tailwindcss from '@tailwindcss/vite';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://gulivan.github.io',
+  site: 'https://gulivan.dev',
   output: 'static',
   integrations: [
     mdx(),
