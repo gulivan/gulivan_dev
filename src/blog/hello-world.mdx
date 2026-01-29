@@ -1,0 +1,55 @@
+---
+title: "Hello World: My First Blog Post"
+pubDate: 2025-01-29
+description: "Welcome to my blog! This post demonstrates all the embed types supported: images, GIFs, YouTube videos, and more."
+tags: ["intro", "demo"]
+image:
+  src: "https://placehold.co/800x400/1a1a2e/e0e0e0?text=Hello+World"
+  alt: "Hello World cover image"
+---
+
+import { YouTube } from 'astro-embed';
+
+Welcome to my blog! This is my first post, and I'll use it to demonstrate the
+various media embeds this site supports.
+
+## Images
+
+You can embed images using standard markdown syntax:
+
+![A placeholder image](https://placehold.co/800x400/1a1a2e/e0e0e0?text=Blog+Image)
+
+## GIFs
+
+GIFs work with a standard `<img>` tag for full control:
+
+<img src="https://media.giphy.com/media/xT9IgzoKnwFNmISR8I/giphy.gif" alt="Coding GIF" width="480" />
+
+## YouTube Videos
+
+Embed YouTube videos using the `astro-embed` component:
+
+<YouTube id="dsTXcSeAZq8" />
+
+## Video Files
+
+You can also embed self-hosted video files directly:
+
+<video controls width="100%" class="rounded-lg">
+  <source src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.webm" type="video/webm" />
+  Your browser does not support the video element.
+</video>
+
+## Code Blocks
+
+And of course, syntax-highlighted code:
+
+```typescript
+function greet(name: string): string {
+  return `Hello, ${name}! Welcome to the blog.`;
+}
+
+console.log(greet('World'));
+```
+
+That's it for the demo. Stay tuned for more posts!

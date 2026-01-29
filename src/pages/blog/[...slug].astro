@@ -1,0 +1,44 @@
+---
+import { getCollection, render } from 'astro:content';
+import BlogPost from '../../layouts/BlogPost.astro';
+
+export async function getStaticPaths() {
+  const allPosts = (await getCollection('blog'))
+    .filter((post) => !post.data.draft)
+    .sort((a, b) => a.data.pubDate.valueOf() - b.data.pubDate.valueOf());
+
+  return allPosts.map((post, i) => ({
+    params: { slug: post.id },
+    props: {
+      post,
+      prevPost: allPosts[i - 1] ?? null,
+      nextPost: allPosts[i + 1] ?? null,
+    },
+  }));
+}
+
+const { post, prevPost, nextPost } = Astro.props;
+const { Content, headings } = await render(post);
+
+// Reading time: strip MDX imports/components, count words
+const rawBody = post.body ?? '';
+const plainText = rawBody
+  .replace(/^import\s.+$/gm, '')
+  .replace(/<[^>]+>/g, '')
+  .replace(/[#*`\[\]()>_~-]/g, '');
+const words = plainText.split(/\s+/).filter(Boolean).length;
+const readingTime = Math.max(1, Math.ceil(words / 225));
+---
+
+<BlogPost
+  title={post.data.title}
+  pubDate={post.data.pubDate}
+  description={post.data.description}
+  tags={post.data.tags}
+  readingTime={readingTime}
+  headings={headings}
+  prevPost={prevPost ? { slug: prevPost.id, title: prevPost.data.title } : null}
+  nextPost={nextPost ? { slug: nextPost.id, title: nextPost.data.title } : null}
+>
+  <Content />
+</BlogPost>
