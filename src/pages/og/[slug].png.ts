@@ -43,7 +43,7 @@ export async function GET({ params }: APIContext) {
     );
   }
 
-  const authorLabel = isRu ? 'Иван' : 'Ivan';
+  const authorLabel = post.data.author ?? (isRu ? 'Иван' : 'Ivan');
   const dateLocale = isRu ? 'ru-RU' : 'en-US';
 
   const svg = await satori(

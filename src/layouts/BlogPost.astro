@@ -26,9 +26,10 @@ interface Props {
   nextPost?: PostLink | null;
   locale?: Locale;
   postId?: string;
+  author?: string;
 }
 
-const { title, pubDate, description, tags, readingTime, headings, prevPost, nextPost, locale: localeProp, postId } = Astro.props;
+const { title, pubDate, description, tags, readingTime, headings, prevPost, nextPost, locale: localeProp, postId, author } = Astro.props;
 const locale = localeProp ?? (Astro.currentLocale as Locale) ?? 'en';
 const t = getTranslations(locale);
 const formattedDate = formatDate(pubDate, locale);
@@ -45,11 +46,12 @@ const ogSlug = postId ? getBaseSlug(postId) : Astro.params.slug;
   ogType="article"
   canonicalUrl={Astro.url.href}
   publishedTime={pubDate.toISOString()}
-  author="Ivan"
+  author={author ?? "Ivan"}
 >
   <article>
     <header class="mb-8">
-      <h1 class="text-4xl font-bold tracking-tight mb-2">{title}</h1>
+      <h1 class="text-3xl sm:text-4xl font-bold tracking-tight mb-2 break-words">{title}</h1>
+      {author && <p class="text-muted-foreground mb-1">{author}</p>}
       <div class="flex items-center gap-3 text-muted-foreground text-sm">
         <time datetime={pubDate.toISOString()}>{formattedDate}</time>
         {readingTime && <span>&middot; {readingTime} {t.blog.minRead}</span>}

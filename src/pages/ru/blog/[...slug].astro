@@ -35,6 +35,7 @@ const readingTime = Math.max(1, Math.ceil(words / 225));
   pubDate={post.data.pubDate}
   description={post.data.description}
   tags={post.data.tags}
+  author={post.data.author}
   readingTime={readingTime}
   headings={headings}
   prevPost={prevPost ? { slug: getBaseSlug(prevPost.id), title: prevPost.data.title } : null}

@@ -18,6 +18,8 @@ const blog = defineCollection({
       })
       .optional(),
     tags: z.array(z.string()).optional(),
+    // Set when the post is someone else's text (e.g. a translation); shown in the byline and OG card.
+    author: z.string().optional(),
     draft: z.boolean().optional().default(false),
   }),
 });
